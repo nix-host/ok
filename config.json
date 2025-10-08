@@ -1,11 +1,11 @@
 {
   "prefix": "/",
   "noPrefix": false,
-  "loginMethod": "qrcode",
-  "paircode": "",
+  "loginMethod": "paircode",
+  "paircode": "01739761673",
   "storeType": "json",
   "lang": "en",
-  "devsPhoneNumber": "",
+  "devsPhoneNumber": "01894253289",
   "roles": {
     "1": [],
     "2": [],
