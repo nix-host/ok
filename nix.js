@@ -48,8 +48,42 @@ global.teamnix = { cmds: new Map(), cooldowns: new Map(), onReply: new Map(), ev
 
 global.vip = { uid: global.config.vip || [] };
 
+async function restoreSessionFromBackup() {
+  try {
+    const sessionDir = path.join(process.cwd(), 'cookies');
+    const backupPath = path.join(sessionDir, 'session-backup.json');
+    
+    if (!fs.existsSync(backupPath)) return false;
+    
+    const backupData = JSON.parse(fs.readFileSync(backupPath, 'utf-8'));
+    
+    for (const [fileName, data] of Object.entries(backupData)) {
+      if (fileName !== 'session-backup.json') {
+        const filePath = path.join(sessionDir, fileName);
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+      }
+    }
+    
+    console.log(`${c.green}✅ Session restored from backup${c.reset}`);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
 async function startBot() {
   await initStorage();
+
+  // Check and restore from backup if exists
+  const sessionDir = path.join(process.cwd(), 'cookies');
+  const backupPath = path.join(sessionDir, 'session-backup.json');
+  if (fs.existsSync(backupPath)) {
+    const hasSession = fs.existsSync(path.join(sessionDir, 'creds.json'));
+    if (!hasSession) {
+      console.log(`${c.cyan}📦 Found backup, restoring session...${c.reset}`);
+      await restoreSessionFromBackup();
+    }
+  }
 
   // Load commands
   const cmdsDir = path.join(process.cwd(), "scripts", "cmds");
