@@ -69,15 +69,27 @@ exports.startPairCodeBot = async () => {
   if (!state.creds.registered) {
     setTimeout(async () => {
       try {
-        const code = await sock.requestPairingCode(phoneNumber.replace(/[^0-9]/g, ''));
+        let formattedNumber = phoneNumber.replace(/[^0-9]/g, '');
+        
+        // Remove leading 0 if present
+        if (formattedNumber.startsWith('0')) {
+          formattedNumber = formattedNumber.substring(1);
+        }
+        
+        console.log(`📱 Using phone number: +${formattedNumber}`);
+        const code = await sock.requestPairingCode(formattedNumber);
         console.log(`\n🔐 Pairing Code: ${code}\n`);
-        console.log("Enter this code in your WhatsApp app:");
+        console.log("⚠️ IMPORTANT: Make sure this phone number matches your WhatsApp:");
+        console.log(`   +${formattedNumber}`);
+        console.log("\nEnter this code in your WhatsApp app:");
         console.log("1. Open WhatsApp");
         console.log("2. Go to Settings > Linked Devices");
         console.log("3. Tap 'Link a Device'");
         console.log("4. Enter the code above\n");
       } catch (err) {
-        console.error("Failed to get pairing code:", err.message);
+        console.error("❌ Failed to get pairing code:", err.message);
+        console.error("💡 Tip: Make sure the phone number in config.json is correct");
+        console.error("   Format: Country code + number (e.g., 8801739761673 for Bangladesh)");
       }
     }, 3000);
   }
