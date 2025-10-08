@@ -1,0 +1,15 @@
+{
+  "prefix": "/",
+  "noPrefix": false,
+  "loginMethod": "qrcode",
+  "storeType": "json",
+  "lang": "en",
+  "devsPhoneNumber": "",
+  "roles": {
+    "1": [],
+    "2": [],
+    "3": []
+  },
+  "vip": [],
+  "CoolDownForDev": false
+}
