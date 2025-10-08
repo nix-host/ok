@@ -1,7 +1,7 @@
 {
-  "prefix": "/",
+  "prefix": "!",
   "noPrefix": false,
-  "loginMethod": "paircode",
+  "loginMethod": "qrcode",
   "paircode": "8801739761673",
   "storeType": "json",
   "lang": "en",
