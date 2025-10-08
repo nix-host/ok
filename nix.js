@@ -88,6 +88,9 @@ async function startBot() {
   if (loginMethod === "qrcode") {
     const { startQRCodeBot } = require("./bot/login/whatsapp_qrcode.js");
     await startQRCodeBot();
+  } else if (loginMethod === "paircode") {
+    const { startPairCodeBot } = require("./bot/login/whatsapp_paircode.js");
+    await startPairCodeBot();
   } else if (loginMethod === "cloud") {
     const { startCloudAPIBot } = require("./bot/login/whatsapp_cloud.js");
     await startCloudAPIBot();
