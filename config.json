@@ -2,10 +2,10 @@
   "prefix": "/",
   "noPrefix": false,
   "loginMethod": "paircode",
-  "paircode": "01739761673",
+  "paircode": "8801739761673",
   "storeType": "json",
   "lang": "en",
-  "devsPhoneNumber": "01894253289",
+  "devsPhoneNumber": "8801894253289",
   "roles": {
     "1": [],
     "2": [],

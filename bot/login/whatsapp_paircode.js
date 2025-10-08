@@ -18,26 +18,28 @@ exports.startPairCodeBot = async () => {
 
   sock.ev.on("creds.update", saveCreds);
 
-  if (!sock.authState.creds.registered) {
-    const phoneNumber = global.config.paircode;
-    
-    if (!phoneNumber) {
-      console.error("❌ Error: Phone number not set in config.json under 'paircode' field.");
-      console.log("Please add your phone number in config.json like: \"paircode\": \"8801234567890\"");
-      process.exit(1);
-    }
-
-    const code = await sock.requestPairingCode(phoneNumber);
-    console.log(`\n🔐 Pairing Code: ${code}\n`);
-    console.log("Enter this code in your WhatsApp app:");
-    console.log("1. Open WhatsApp");
-    console.log("2. Go to Settings > Linked Devices");
-    console.log("3. Tap 'Link a Device'");
-    console.log("4. Enter the code above\n");
-  }
-
   sock.ev.on("connection.update", async (update) => {
-    const { connection, lastDisconnect } = update;
+    const { connection, lastDisconnect, qr } = update;
+
+    if (qr) {
+      if (!sock.authState.creds.registered) {
+        const phoneNumber = global.config.paircode;
+        
+        if (!phoneNumber) {
+          console.error("❌ Error: Phone number not set in config.json under 'paircode' field.");
+          console.log("Please add your phone number in config.json like: \"paircode\": \"8801234567890\"");
+          process.exit(1);
+        }
+
+        const code = await sock.requestPairingCode(phoneNumber);
+        console.log(`\n🔐 Pairing Code: ${code}\n`);
+        console.log("Enter this code in your WhatsApp app:");
+        console.log("1. Open WhatsApp");
+        console.log("2. Go to Settings > Linked Devices");
+        console.log("3. Tap 'Link a Device'");
+        console.log("4. Enter the code above\n");
+      }
+    }
 
     if (connection === "close") {
       const shouldReconnect = lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut;
